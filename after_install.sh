@@ -1,17 +1,38 @@
-#!/bin/sh
-
+#!/bin/bash
 
 set -e
-if [ "$(id -u)" -eq 0 ]; then
-  echo "⚠️  Do not run this script as root."
-    echo "Run it as the target user (e.g., sergueik)."
-      exit 1
+
+cd ~/playwright-project
+
+# Initialize project if not already
+if [ ! -f package.json ]; then
+  npm init -y
 fi
 
-cd ~
-mkdir -p playwright-project
-cd playwright-project
-npm init -y
+# Install Playwright Test
 npm install -D @playwright/test
 npx playwright install
-npx playwright test --init
+
+# Create config if missing
+if [ ! -f playwright.config.js ]; then
+  npx playwright test --init
+fi
+
+# Add a sample test if none exist
+if [ ! -d tests ]; then
+  mkdir tests
+fi
+
+if [ ! -f tests/example.spec.js ]; then
+  cat <<EOF > tests/example.spec.js
+const { test, expect } = require('@playwright/test');
+
+test('basic test', async ({ page }) => {
+  await page.goto('https://example.com');
+  await expect(page).toHaveTitle('Example Domain');
+});
+EOF
+fi
+
+# Done
+echo "✅ Playwright initialized and test scaffolded successfully."
