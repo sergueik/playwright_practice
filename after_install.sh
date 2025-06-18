@@ -23,6 +23,8 @@ if [ ! -d tests ]; then
   mkdir tests
 fi
 
+# TODO: patch the directory - Playwright is sensitive to refernce match 
+
 if [ ! -f tests/example.spec.js ]; then
   cat <<EOF > tests/example.spec.js
 const { test, expect } = require('@playwright/test');
