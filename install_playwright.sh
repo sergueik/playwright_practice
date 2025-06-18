@@ -32,6 +32,24 @@ npm init -y
 npm install -D @playwright/test
 
 # 7. Download browser binaries
+
+echo "Updating package list and installing Playwright dependencies..."
+
+sudo apt-get update
+
+# Install Playwright browser dependencies recommended by Playwright itself
+sudo apt-get install -y libgtk-4-1 libavif13
+
+# Alternatively, run playwright install-deps to cover all required dependencies
+npx playwright install-deps
+
+echo "Playwright dependencies installed successfully."
+
+# Existing Playwright install commands below
+npx playwright install
+
+echo "Playwright browsers installed successfully."
+
 npx playwright install
 
 # 8. Optional: Create a sample test
@@ -52,3 +70,4 @@ echo "Running sample test..."
 npx playwright test
 
 echo "✅ Playwright setup complete."
+
